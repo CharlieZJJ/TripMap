@@ -1,0 +1,23 @@
+spring:
+  neo4j:
+    authentication:
+      password: 123456
+      username: neo4j
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/trip_map?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    com.ecnu.tripmap: debug
+    com.ecnu.tripmap.mysql: trace
+    com.ecnu.tripmap.neo4j: trace
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
