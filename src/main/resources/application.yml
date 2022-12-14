@@ -38,3 +38,13 @@ logging:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+
+tencent:
+  cos:
+    url: https://juzimang-image-1307651200.cos.ap-shanghai.myqcloud.com
+    prefix: /juzimang/images/
+    appId: 1307651200
+    secretId: AKIDsWu2tTmoa5JFvJQGp78sPfeMnxqRlpc8
+    secretKey: GH2WjfKiqhIbdOs50e2A3kESP5UdU4NP
+    bucketName: juzimang-image-1307651200
+    region: ap-shanghai

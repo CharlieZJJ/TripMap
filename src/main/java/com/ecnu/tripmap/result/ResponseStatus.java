@@ -20,7 +20,8 @@ public enum ResponseStatus {
     PUBLISH_FAIL(-9,"笔记发布失败，请联系工作人员"),
     HOME_PAGE_FAIL(-10,"首页笔记获取失败，请联系工作人员"),
     PLACE_RECOMMEND_FAIL(-11,"推荐地点获取失败，请联系工作人员"),
-    PLACE_POSTS_FAIL(-12,"");
+    PLACE_POSTS_FAIL(-12,""),
+    PICTURE_UPLOAD_FAIL(-13, "图片上传失败");
 
 
 

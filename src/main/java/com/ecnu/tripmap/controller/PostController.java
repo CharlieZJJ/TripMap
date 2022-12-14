@@ -7,9 +7,11 @@ import com.ecnu.tripmap.model.vo.UserVo;
 import com.ecnu.tripmap.mysql.entity.User;
 import com.ecnu.tripmap.result.Response;
 import com.ecnu.tripmap.result.ResponseStatus;
+import com.ecnu.tripmap.service.FileService;
 import com.ecnu.tripmap.service.PostService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -27,6 +29,9 @@ public class PostController {
     @Resource
     private PostService postService;
 
+    @Resource
+    private FileService fileService;
+
     @ApiOperation(value = "首页帖子，没有要传入的参数")
     @ApiResponses({
             @ApiResponse(code = 0, message = "成功"),
@@ -41,6 +46,19 @@ public class PostController {
         if (posts == null)
             return  Response.status(ResponseStatus.PUBLISH_FAIL);
         return Response.success(posts);
+    }
+
+    @PostMapping("/upload")
+    @ApiOperation("用于上传图片，在发布新的笔记的时候使用，每次调用成功将会返回这个图片的url，将许多url以ur1l, url2, url3...的形式组织好再传给publish接口")
+    @ApiResponses({
+            @ApiResponse(code = -13, message = "图片上传失败"),
+            @ApiResponse(code = 0, message = "成功")
+    })
+    public Response upload(@RequestParam(value = "file")@ApiParam(name = "file", value = "要上传的图片，格式是MultipartFile") MultipartFile file){
+        String upload = fileService.upload(file);
+        if (upload == null)
+            return Response.status(ResponseStatus.PICTURE_UPLOAD_FAIL);
+        return Response.success(upload);
     }
 
     @ApiOperation(value = "新增帖子，需要传入帖子")
@@ -83,9 +101,9 @@ public class PostController {
     })
     @PutMapping("{post_id}/collect")
     public Response collectPost(@ApiParam(name = "post_id", value = "要收藏的笔记id") @PathVariable Integer post_id) {
-//        UserVo user = (UserVo) session.getAttribute("user");
-//        return postService.collectPost(user.getUserId(), post_id);
-        return postService.collectPost(1, post_id);
+        UserVo user = (UserVo) session.getAttribute("user");
+        return postService.collectPost(user.getUserId(), post_id);
+//        return postService.collectPost(1, post_id);
     }
 
     @ApiOperation(value = "取消收藏一个笔记，需要传入笔记id")
