@@ -10,7 +10,9 @@ import com.ecnu.tripmap.neo4j.dao.PlaceRepository;
 import com.ecnu.tripmap.result.Response;
 import com.ecnu.tripmap.result.ResponseStatus;
 import com.ecnu.tripmap.service.PlaceService;
+import com.ecnu.tripmap.service.UserService;
 import com.ecnu.tripmap.utils.CopyUtil;
+import com.ecnu.tripmap.utils.RedisUtil;
 import com.ecnu.tripmap.utils.SimilarityUtil;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,10 @@ public class PlaceServiceImpl implements PlaceService {
     private PlaceMapper placeMapper;
 
     @Resource
-    SimilarityUtil similarityUtil;
+    private UserService userService;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     public Response collectPlace(Integer user_id, Integer place_id){
         Integer collectRelationship = placeRepository.createStoreRelationship(user_id,place_id);
@@ -43,6 +48,7 @@ public class PlaceServiceImpl implements PlaceService {
                 .one();
         user.setUserCollectLocationCount(user.getUserCollectLocationCount() + 1);
         userMapper.updateById(user);
+        userService.asyncRecommend(user_id);
         return Response.success(collectRelationship);
     }
 
@@ -54,15 +60,19 @@ public class PlaceServiceImpl implements PlaceService {
                 .one();
         user.setUserCollectLocationCount(user.getUserCollectLocationCount() - 1);
         userMapper.updateById(user);
+        userService.asyncRecommend(user_id);
         return Response.success();
 
     }
 
     public List<PlaceBiref> recommendPlaces(Integer user_id){
-        List<Integer> placesId = similarityUtil.recommend(user_id);
+        if (!redisUtil.hasKey("user_"+user_id)) {
+            userService.recommend(user_id);
+        }
+        List<Object> objects = redisUtil.lGet("user_" + user_id, 0, -1);
         List<PlaceBiref> places = new ArrayList<>();
         for (int i = 0;i < 10; i++){
-            Integer placeID = placesId.get(i);
+            Integer placeID = (Integer) objects.get(i);
             Place one = new LambdaQueryChainWrapper<>(placeMapper)
                     .eq(Place::getPlaceId, placeID)
                     .one();

@@ -8,6 +8,8 @@ import com.ecnu.tripmap.neo4j.dao.PostRepository;
 import com.ecnu.tripmap.neo4j.dao.UserRepository;
 import com.ecnu.tripmap.service.Impl.UserServiceImpl;
 import com.ecnu.tripmap.service.PlaceService;
+import com.ecnu.tripmap.service.SearchService;
+import com.ecnu.tripmap.service.UserService;
 import com.ecnu.tripmap.utils.CopyUtil;
 import com.ecnu.tripmap.utils.SimilarityUtil;
 import org.junit.jupiter.api.Test;
@@ -16,26 +18,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest
 class TripMapApplicationTests {
-
-    @Autowired
-    private UserServiceImpl userService;
-    @Autowired
-    private PlaceRepository placeRepository;
-    @Autowired
-    private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private SimilarityUtil similarityUtil;
-    @Autowired
-    private PlaceService placeService;
+    private SearchService searchService;
 
     @Test
     void testSave() {
@@ -75,22 +69,24 @@ class TripMapApplicationTests {
         System.out.println(encode);
     }
 
-    @Test
-    void t(){
-        List<Integer> recommend = similarityUtil.recommend(3);
-        for (Integer integer : recommend) {
-            System.out.println(integer);
-        }
-    }
+//    @Test
+//    void t(){
+//        List<Integer> recommend = similarityUtil.recommend(3);
+//        for (Integer integer : recommend) {
+//            System.out.println(integer);
+//        }
+//    }
 
     @Test
     void recommendPlaces(){
-        List<PlaceBiref> places = placeService.recommendPlaces(1);
-        for (PlaceBiref place:places){
-            System.out.println(place.getPlaceId().toString());
-            System.out.println(place.getPlaceAddress());
-        }
-
+//        List<PlaceBiref> places = placeService.recommendPlaces(1);
+//        for (PlaceBiref place:places){
+//            System.out.println(place.getPlaceId().toString());
+//            System.out.println(place.getPlaceAddress());
+//        }
+        HashMap<String, Object> sd = searchService.search("哈", 0, 1);
+        Object user = sd.get("post");
+        System.out.println(user);
     }
 
 }

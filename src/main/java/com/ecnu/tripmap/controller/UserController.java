@@ -6,6 +6,7 @@ import com.ecnu.tripmap.result.Response;
 import com.ecnu.tripmap.result.ResponseStatus;
 import com.ecnu.tripmap.service.Impl.PostServiceImpl;
 import com.ecnu.tripmap.service.Impl.UserServiceImpl;
+import com.ecnu.tripmap.service.UserService;
 import com.ecnu.tripmap.utils.CopyUtil;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class UserController {
     private HttpSession session;
 
     @Resource
-    private UserServiceImpl userService;
+    private UserService userService;
 
 
     @ApiOperation(value = "登录，若session之中已经有用户的信息，那么直接放行")

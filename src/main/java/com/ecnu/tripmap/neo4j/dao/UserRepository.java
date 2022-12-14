@@ -10,9 +10,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends Neo4jRepository<UserNode, Long> {
 
-    @Override
-    <S extends UserNode> S save(S entity);
-
     @Query("MATCH (u:User) -[:PUBLISH]-> (p:Post) WHERE p.post_id = $post_id RETURN (u)")
     UserNode findPublisher(Integer post_id);
 
@@ -37,4 +34,7 @@ public interface UserRepository extends Neo4jRepository<UserNode, Long> {
 
     @Query("MATCH (u:User)-[f:PUBLISH]->(p:Post) WHERE u.user_id=$user_id AND p.post_id=$post_id DETACH DELETE p")
     void deleteAPost(Integer user_id, Integer post_id);
+
+    @Query("MATCH (u:User) WHERE u.user_nickname CONTAINS $query RETURN u" )
+    List<UserNode> fuzzySearch(String query);
 }

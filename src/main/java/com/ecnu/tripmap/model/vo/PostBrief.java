@@ -1,5 +1,8 @@
 package com.ecnu.tripmap.model.vo;
 
+import com.ecnu.tripmap.mysql.entity.Post;
+import com.ecnu.tripmap.utils.CopyUtil;
+import com.qcloud.cos.transfer.Copy;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +27,5 @@ public class PostBrief {
     private String userAvatar;
 
     private Integer userId;
-
 }
 

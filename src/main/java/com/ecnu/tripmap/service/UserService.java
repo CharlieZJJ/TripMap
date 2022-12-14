@@ -7,6 +7,8 @@ import com.ecnu.tripmap.model.vo.UserVo;
 import com.ecnu.tripmap.mysql.entity.User;
 import com.ecnu.tripmap.result.Response;
 import io.swagger.models.auth.In;
+import lombok.SneakyThrows;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
@@ -34,4 +36,10 @@ public interface UserService {
     List<UserBrief> findUserFollowedUser(Integer user_id);
 
     List<UserBrief> findUserFanUser(Integer user_id);
+
+    void recommend(int user_id);
+
+    @Async
+    @SneakyThrows
+    void asyncRecommend(int user_id);
 }

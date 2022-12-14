@@ -34,7 +34,7 @@ public class PlaceController {
             @ApiResponse(code = 0, message = "成功"),
             @ApiResponse(code = -11, message = "地点推荐失败，请联系工作人员")
     })
-    @GetMapping("recommend")
+    @GetMapping("/recommend")
     public Response recommendPlaces() {
         UserVo user = (UserVo) session.getAttribute("user");
         List<PlaceBiref> places = placeService.recommendPlaces(user.getUserId());

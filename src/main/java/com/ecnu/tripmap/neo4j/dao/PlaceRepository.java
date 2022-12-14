@@ -40,4 +40,7 @@ public interface PlaceRepository extends Neo4jRepository<PlaceNode, Long> {
 
     @Query("MATCH (u:User)-[s:STORE]->(p:Place) WHERE u.user_id=$user_id AND p.place_id=$place_id delete s")
     void cancelStoreRelationship(Integer user_id, Integer place_id);
+
+    @Query("MATCH (p:Place) WHERE p.place_province CONTAINS $query OR p.place_area CONTAINS $query OR p.place_address CONTAINS $query RETURN p")
+    List<PlaceNode> fuzzySearch(String query);
 }

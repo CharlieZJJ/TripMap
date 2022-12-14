@@ -22,7 +22,9 @@ import com.ecnu.tripmap.neo4j.node.UserNode;
 import com.ecnu.tripmap.result.Response;
 import com.ecnu.tripmap.result.ResponseStatus;
 import com.ecnu.tripmap.service.PostService;
+import com.ecnu.tripmap.service.UserService;
 import com.ecnu.tripmap.utils.CopyUtil;
+import com.ecnu.tripmap.utils.RedisUtil;
 import com.ecnu.tripmap.utils.SimilarityUtil;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +56,10 @@ public class PostServiceImpl implements PostService {
     private TopicMapper topicMapper;
 
     @Resource
-    private SimilarityUtil similarityUtil;
+    private UserService userService;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     public Response collectPost(Integer user_id, Integer post_id) {
@@ -71,6 +76,7 @@ public class PostServiceImpl implements PostService {
                 .one();
         user.setUserCollectPostCount(user.getUserCollectPostCount() + 1);
         userMapper.updateById(user);
+        userService.asyncRecommend(user_id);
         return Response.success(collectRelationship);
     }
     public  Response cancelCollectPost(Integer user_id,Integer post_id){
@@ -87,6 +93,7 @@ public class PostServiceImpl implements PostService {
                 .one();
         user.setUserCollectPostCount(user.getUserCollectPostCount() - 1);
         userMapper.updateById(user);
+        userService.asyncRecommend(user_id);
         return Response.success();
     }
 
@@ -100,6 +107,7 @@ public class PostServiceImpl implements PostService {
                 .one();
         post.setPostLikeCount(post.getPostLikeCount() + 1);
         postMapper.updateById(post);
+        userService.asyncRecommend(user_id);
         return Response.success(likeRelationship);
     }
 
@@ -111,6 +119,7 @@ public class PostServiceImpl implements PostService {
                 .one();
         post.setPostLikeCount(post.getPostLikeCount() - 1);
         postMapper.updateById(post);
+        userService.asyncRecommend(user_id);
         return Response.success();
     }
 
@@ -238,19 +247,22 @@ public class PostServiceImpl implements PostService {
         postVo.setRecommendPlace(placeNode.getPlaceAddress());
         postVo.setRecommendPlaceId(placeNode.getPlaceId());
         postVo.setTopicList(topics);
-
+        userService.asyncRecommend(user_id);
         return postVo;
 
     }
 
     @Override
     public List<PostBrief> postList(Integer user_id){
-
-        List<Integer> placesId = similarityUtil.recommend(user_id);
+        if (!redisUtil.hasKey("user_"+user_id)){
+            userService.recommend(user_id);
+        }
+//        List<Integer> placesId = similarityUtil.recommend(user_id);
+        List<Object> objects = redisUtil.lGet("user_" + user_id, 0, -1);
         List<PostNode> postNodes = new ArrayList<>();
         List<PostBrief> posts = new ArrayList<>();
         for (int i = 0;i < 10; i++){
-            Integer placeID = placesId.get(i);
+            Integer placeID = (Integer) objects.get(i);
             List<PostNode> places_post = postRepository.findPlacePostList(placeID);
             postNodes.addAll(places_post);
         }
@@ -258,26 +270,31 @@ public class PostServiceImpl implements PostService {
             Post one = new LambdaQueryChainWrapper<>(postMapper)
                     .eq(Post::getPostId, post.getPostId())
                     .one();
-            PostBrief copy = CopyUtil.copy(one, PostBrief.class);
-            String postImageList = copy.getPostImageList();
-            int i = postImageList.indexOf(',');
-            if (i != -1) {
-                postImageList = postImageList.substring(0, i);
-            }
-            copy.setPostImageList(postImageList);
-            String postDesc = copy.getPostDesc();
-            if (postDesc.length() > 50) {
-                postDesc = postDesc.substring(0, 50);
-            }
-            copy.setPostDesc(postDesc);
-            UserNode publisher = userRepository.findPublisher(copy.getPostId());
-            copy.setUserAvatar(publisher.getUserAvatar());
-            copy.setUserName(publisher.getUserNickname());
-            copy.setUserId(publisher.getUserId());
-            posts.add(copy);
+
+            posts.add(getFromPost(one));
         }
         Collections.shuffle(posts);
         return posts;
+    }
+
+    public PostBrief getFromPost(Post post){
+        PostBrief copy = CopyUtil.copy(post, PostBrief.class);
+        String postImageList = copy.getPostImageList();
+        int i = postImageList.indexOf(',');
+        if (i != -1) {
+            postImageList = postImageList.substring(0, i);
+        }
+        copy.setPostImageList(postImageList);
+        String postDesc = copy.getPostDesc();
+        if (postDesc.length() > 50) {
+            postDesc = postDesc.substring(0, 50);
+        }
+        copy.setPostDesc(postDesc);
+        UserNode publisher = userRepository.findPublisher(copy.getPostId());
+        copy.setUserAvatar(publisher.getUserAvatar());
+        copy.setUserName(publisher.getUserNickname());
+        copy.setUserId(publisher.getUserId());
+        return copy;
     }
 
 
@@ -289,23 +306,7 @@ public class PostServiceImpl implements PostService {
             Post one = new LambdaQueryChainWrapper<>(postMapper)
                     .eq(Post::getPostId, post.getPostId())
                     .one();
-            PostBrief copy = CopyUtil.copy(one, PostBrief.class);
-            String postImageList = copy.getPostImageList();
-            int i = postImageList.indexOf(',');
-            if (i != -1) {
-                postImageList = postImageList.substring(0, i);
-            }
-            copy.setPostImageList(postImageList);
-            String postDesc = copy.getPostDesc();
-            if (postDesc.length() > 50) {
-                postDesc = postDesc.substring(0, 50);
-            }
-            copy.setPostDesc(postDesc);
-            UserNode publisher = userRepository.findPublisher(copy.getPostId());
-            copy.setUserAvatar(publisher.getUserAvatar());
-            copy.setUserName(publisher.getUserNickname());
-            copy.setUserId(publisher.getUserId());
-            posts.add(copy);
+            posts.add(getFromPost(one));
         }
         return posts;
     }

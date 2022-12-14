@@ -3,6 +3,7 @@ package com.ecnu.tripmap.service;
 import com.ecnu.tripmap.model.vo.PostBrief;
 import com.ecnu.tripmap.model.vo.PostPv;
 import com.ecnu.tripmap.model.vo.PostVo;
+import com.ecnu.tripmap.mysql.entity.Post;
 import com.ecnu.tripmap.result.Response;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface PostService {
     PostVo publish(PostPv postPv, Integer user_id);
     List<PostBrief> postList(Integer user_id);
     List<PostBrief> placePostList(Integer place_id);
+
+    PostBrief getFromPost(Post post);
 }
