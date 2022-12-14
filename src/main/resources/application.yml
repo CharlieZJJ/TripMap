@@ -1,12 +1,12 @@
 spring:
   neo4j:
     authentication:
-      password: 123456
-      username: neo4j
+      password: ENC(FZYkWGt+/7PqnEc3OFrpmC94UFSm6asKR5a7VX/liOk2qr162xYWc4SLFwqHBvfF)
+      username: ENC(me+M0dJDHwT/Ul75+8US07ZgEmpeepo2urtYg26vKe+4A7wNt2KqQIcE+Gwop1BE)
   datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/trip_map?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ENC(j9qHjbBcpV//2Kpw1tDo0mpXH94nvoq6auH6iEnPwXvdej/doTQPsqkpwQH+hXJf)
+    password: ENC(xqrVoJDitjX6JGh/z5cWMwoAJ2MrdOL75TON5aADp2L1PIdCNb8s4581r5VXKgdp)
+    url: ENC(AJ3enyo5fjDyZakrkchwt9Mrz3Q6yHByFRrlivnuw5LBYcU+3hUCqkaHmos59OiAQR9Rs51hBGmUq6+bSzUEBlJ52n3SmSft/vGovhFJMehbcRdZvD2apHDoFj0lrw0z5Hq0yQSebCHrdzVhuBX+Tvf0iJNrOeK1gDyN+LPfLVQX8NXBndiyPe1dtYZ4L9en2caiEaSwXHZRjpA6dAX3eg==)
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     pathmatch:
@@ -26,7 +26,7 @@ spring:
         max-idle: 10
         max-wait: 2000
     port: 6379
-    host: 127.0.0.1
+    host: ENC(yMMb+Oy6rEEBQd5pK42w0VPUnrADaVFlbJnBDbUSSOfm/rLyeLtvBTBXh8JPfi9a)
     # 我本地的机器上redis没有密码，如果你有的话把下面这一行去掉并改成你的密码，否则会报错
     # password: xxxxx
 logging:
@@ -41,10 +41,14 @@ mybatis-plus:
 
 tencent:
   cos:
-    url: https://juzimang-image-1307651200.cos.ap-shanghai.myqcloud.com
+    url: ENC(bwK5tM2gC8TB/w3s01CV9GQgL0Oyv81YShAmmrjGrz4fIZGCbB/UvnJesAo3UJnWCSC6YrWxcTQ4khwau7EFjkiWvdGA0Pbc8EocqaggM/LdbMkU9vix+4pCxYfeSLA/)
     prefix: /juzimang/images/
-    appId: 1307651200
-    secretId: AKIDsWu2tTmoa5JFvJQGp78sPfeMnxqRlpc8
-    secretKey: GH2WjfKiqhIbdOs50e2A3kESP5UdU4NP
+    appId: ENC(g/xBftzWDWwuYxpc0F2xqhjj9U/vq9mmrRSMkV7yIThV8By9iBif0WW5WUro6sfB)
+    secretId: ENC(2JM9hi+AFXkp3+/100kASki0iaJVkF82wTlxk+A2QY4+M9UA2baybEecY35g9Yz6CFI0qzMYIPN4SnZLnAysGDqnIUnbHx+w2VqSlVefwkc=)
+    secretKey: ENC(s7BqMp5skpFeaVYJWNbp3JW/zAl9Ze5izvScq/Igp2QhHGUZUHKbhphc+yKr9ozzRzX8qtPeZ+fUx8GewMCGZEKvRr+P8lnxcG9UwK6tElY=)
     bucketName: juzimang-image-1307651200
     region: ap-shanghai
+
+jasypt:
+  encryptor:
+    password: tripmap

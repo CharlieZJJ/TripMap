@@ -12,9 +12,12 @@ import com.ecnu.tripmap.service.SearchService;
 import com.ecnu.tripmap.service.UserService;
 import com.ecnu.tripmap.utils.CopyUtil;
 import com.ecnu.tripmap.utils.SimilarityUtil;
+import com.ulisesbocchio.jasyptspringboot.encryptor.DefaultLazyEncryptor;
+import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
@@ -87,6 +90,23 @@ class TripMapApplicationTests {
         HashMap<String, Object> sd = searchService.search("哈", 0, 1);
         Object user = sd.get("post");
         System.out.println(user);
+    }
+
+    @Test
+    public void test() {
+        // 对应配置文件中配置的加密密钥
+        System.setProperty("jasypt.encryptor.password", "tripmap");
+        StringEncryptor stringEncryptor = new DefaultLazyEncryptor(new StandardEnvironment());
+        System.out.println("加密mysql.username： " + stringEncryptor.encrypt("root"));
+        System.out.println("加密mysql.password： " + stringEncryptor.encrypt("123456"));
+        System.out.println("加密mysq.url： " + stringEncryptor.encrypt("jdbc:mysql://127.0.0.1:3306/trip_map?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false"));
+        System.out.println("加密neo4j.username： " + stringEncryptor.encrypt("neo4j"));
+        System.out.println("加密neo4j.password： " + stringEncryptor.encrypt("123456"));
+        System.out.println("加密redis.host： " + stringEncryptor.encrypt("127.0.0.1"));
+        System.out.println("加密cos.url： " + stringEncryptor.encrypt("https://juzimang-image-1307651200.cos.ap-shanghai.myqcloud.com"));
+        System.out.println("加密cos.appId： " + stringEncryptor.encrypt("1307651200"));
+        System.out.println("加密cos.secretId： " + stringEncryptor.encrypt("AKIDsWu2tTmoa5JFvJQGp78sPfeMnxqRlpc8"));
+        System.out.println("加密cos.secretKey： " + stringEncryptor.encrypt("GH2WjfKiqhIbdOs50e2A3kESP5UdU4NP"));
     }
 
 }
