@@ -11,6 +11,7 @@ import com.ecnu.tripmap.service.PlaceService;
 import com.ecnu.tripmap.service.SearchService;
 import com.ecnu.tripmap.service.UserService;
 import com.ecnu.tripmap.utils.CopyUtil;
+import com.ecnu.tripmap.utils.RedisUtil;
 import com.ecnu.tripmap.utils.SimilarityUtil;
 import com.ulisesbocchio.jasyptspringboot.encryptor.DefaultLazyEncryptor;
 import org.jasypt.encryption.StringEncryptor;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,9 @@ class TripMapApplicationTests {
 
     @Autowired
     private SearchService searchService;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Test
     void testSave() {
@@ -107,6 +112,22 @@ class TripMapApplicationTests {
         System.out.println("加密cos.appId： " + stringEncryptor.encrypt("1307651200"));
         System.out.println("加密cos.secretId： " + stringEncryptor.encrypt("AKIDsWu2tTmoa5JFvJQGp78sPfeMnxqRlpc8"));
         System.out.println("加密cos.secretKey： " + stringEncryptor.encrypt("GH2WjfKiqhIbdOs50e2A3kESP5UdU4NP"));
+    }
+
+    @Test
+    public void redisTest(){
+        ArrayList<Integer> integers = new ArrayList<>();
+        integers.add(1);
+        integers.add(2);
+        integers.add(3);
+        integers.add(4);
+        integers.add(5);
+        redisUtil.lSet("integers", integers);
+        List<Object> integers1 = redisUtil.lGet("integers", 0, -1);
+        List<Integer> fromList = SimilarityUtil.getFromList(integers1);
+
+        fromList.forEach(System.out::println);
+//        redisUtil.del("integers");
     }
 
 }

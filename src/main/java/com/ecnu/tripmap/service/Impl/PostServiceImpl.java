@@ -259,10 +259,11 @@ public class PostServiceImpl implements PostService {
         }
 //        List<Integer> placesId = similarityUtil.recommend(user_id);
         List<Object> objects = redisUtil.lGet("user_" + user_id, 0, -1);
+        List<Integer> fromList = SimilarityUtil.getFromList(objects);
         List<PostNode> postNodes = new ArrayList<>();
         List<PostBrief> posts = new ArrayList<>();
         for (int i = 0;i < 10; i++){
-            Integer placeID = (Integer) objects.get(i);
+            Integer placeID = fromList.get(i);
             List<PostNode> places_post = postRepository.findPlacePostList(placeID);
             postNodes.addAll(places_post);
         }

@@ -70,9 +70,10 @@ public class PlaceServiceImpl implements PlaceService {
             userService.recommend(user_id);
         }
         List<Object> objects = redisUtil.lGet("user_" + user_id, 0, -1);
+        List<Integer> fromList = SimilarityUtil.getFromList(objects);
         List<PlaceBiref> places = new ArrayList<>();
         for (int i = 0;i < 10; i++){
-            Integer placeID = (Integer) objects.get(i);
+            Integer placeID = fromList.get(i);
             Place one = new LambdaQueryChainWrapper<>(placeMapper)
                     .eq(Place::getPlaceId, placeID)
                     .one();

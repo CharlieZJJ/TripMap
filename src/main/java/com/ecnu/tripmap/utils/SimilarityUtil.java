@@ -37,6 +37,15 @@ public class SimilarityUtil {
         return numerator / sqrt;
     }
 
+    public static List<Integer> getFromList(List<Object> list){
+        String[] split = list.get(0).toString().split(",");
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (String s : split) {
+            integers.add(Integer.parseInt(s));
+        }
+        return integers;
+    }
+
     public static double[][] similarity(double[][] users_and_laces, int user_size){
         double[][] w = new double[user_size][user_size];
         for (int i = 0; i < user_size; i++){

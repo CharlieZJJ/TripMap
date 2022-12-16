@@ -351,6 +351,7 @@ public class UserServiceImpl implements UserService {
             double[][] similarity = SimilarityUtil.similarity(transform, user_id_cnt);
             ret = SimilarityUtil.user_base_recommend(transform, similarity, user_id_cnt-1, user_id_cnt);
         }
+        redisUtil.del("user_" + user_id);
         redisUtil.lSet("user_" + user_id, ret);
     }
 
