@@ -282,7 +282,7 @@ public class UserServiceImpl implements UserService {
         // 找到用户关注的用户列表
         List<UserBrief> users = findUserFollowedUser(user_id);
         // 如果用户尚未关注任何其他人
-        if (!users.isEmpty()){
+        if (users.isEmpty()){
             int[] ints = new int[42];
             for (int i = 0; i < 42; i++){
                 ints[i] = i;
