@@ -68,11 +68,10 @@ public class UserController {
     })
     @GetMapping("/{user_id}")
     public Response info(@ApiParam(name = "user_id", value = "路径参数，要查找的id") @PathVariable(name = "user_id") Integer user_id) {
-        UserVo user = (UserVo) session.getAttribute("user");
-        if (Objects.equals(user.getUserId(), user_id)) {
-            return Response.success(user);
-        }
-
+//        UserVo user = (UserVo) session.getAttribute("user");
+//        if (Objects.equals(user.getUserId(), user_id)) {
+//            return Response.success(user);
+//        }
         UserVo userInfo = userService.findUserInfo(user_id);
         if (userInfo == null)
             return Response.status(ResponseStatus.USER_NOT_EXIST);

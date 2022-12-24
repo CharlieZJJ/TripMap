@@ -27,6 +27,7 @@ import com.ecnu.tripmap.utils.CopyUtil;
 import com.ecnu.tripmap.utils.RedisUtil;
 import com.ecnu.tripmap.utils.SimilarityUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -179,6 +180,7 @@ public class PostServiceImpl implements PostService {
         return copy;
     }
 
+//    @Transactional
     @Override
     public PostVo publish(PostPv postPv, Integer user_id){
         Post post = CopyUtil.copy(postPv,Post.class);
@@ -190,9 +192,6 @@ public class PostServiceImpl implements PostService {
             return null;
         }
 
-
-//        PostNode postNode = CopyUtil.copy(postPv,PostNode.class);
-//        postRepository.save(postNode);
         PostNode postNode = postRepository.createPostNode(post.getPostId());
         Integer publishRelationShip = postRepository.createPublishRelationship(post.getPostId(),user_id);
         if (publishRelationShip == null)
@@ -232,6 +231,12 @@ public class PostServiceImpl implements PostService {
             return null;
 
         UserNode user = userRepository.fineUserById(user_id);
+
+        User one = new LambdaQueryChainWrapper<>(userMapper)
+                .eq(User::getUserId, user_id)
+                .one();
+        one.setUserPostCount(one.getUserPostCount() + 1);
+        userMapper.updateById(one);
 
         PostVo postVo = CopyUtil.copy(post,PostVo.class);
         postVo.setUserId(user.getUserId());

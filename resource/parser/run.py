@@ -1,6 +1,6 @@
 from py2neo import *
 
-graph = Graph('http://127.0.0.1:7474', name='neo4j', password='123456')
+graph = Graph('http://110.40.174.234:7474', name='neo4j', password='123456')
 
 post_cypher = []
 with open('cql/post.txt', 'r', encoding='utf-8') as f:

@@ -72,9 +72,10 @@ class TripMapApplicationTests {
 
     @Test
     void password() {
-        String pass = "123456";
-        String encode = passwordEncoder.encode(pass);
-        System.out.println(encode);
+        String pass = "1";
+        boolean matches = passwordEncoder.matches(pass, "$2a$10$MJ.vAWxoIR712GCjl9qZpO9KHvTU52Pbd2KOlEYEq/cegYm0eXNUW");
+        if (matches)
+            System.out.println("matches");
     }
 
 //    @Test
