@@ -57,36 +57,4 @@ nohup java -jar TripMap-0.0.1-SNAPSHOT.jar &
 
 ## 前端实现效果
 
-1.首页
-![image](https://user-images.githubusercontent.com/100272100/209810016-a9e14cc5-a2ea-4b08-8ee9-ae14cc6a798b.png)
-
-2.地图页
-![image](https://user-images.githubusercontent.com/100272100/209810124-eb5e2704-678c-414b-9efe-466a32c1ad83.png)
-
-3.搜索页
-![image](https://user-images.githubusercontent.com/100272100/209810154-7ee3be7f-dc27-4a21-8e5f-9b3053963d17.png)
-
-4.搜索结果页
-![image](https://user-images.githubusercontent.com/100272100/209810211-67623186-2eb5-4a80-bef6-7f83a6958213.png)
-
-5.帖子详情页
-![image](https://user-images.githubusercontent.com/100272100/209810240-7a8b944c-12b6-428a-9857-1f9361fb6e7b.png)
-
-6.我的页
-![image](https://user-images.githubusercontent.com/100272100/209810272-f73933a8-91b2-4f0f-8293-659b3435742f.png)
-
-7.我的关注列表/我的粉丝列表页
-![image](https://user-images.githubusercontent.com/100272100/209810299-1939eb1b-257a-4a46-b245-57cb49a054d1.png)
-
-8.我的收藏地点页
-![image](https://user-images.githubusercontent.com/100272100/209810320-2f184f86-851c-44fc-8e31-0b3bd5f96065.png)
-
-9.我的帖子/我的收藏帖子页
-![image](https://user-images.githubusercontent.com/100272100/209810407-291df243-1785-4578-99b6-60c600488a26.png)
-
-10.发布帖子页
-![image](https://user-images.githubusercontent.com/100272100/209810435-5cdb7c84-5ee7-485e-b837-eec6701e384a.png)
-
-11.与地点相关的帖子列表页
-![image](https://user-images.githubusercontent.com/100272100/209810480-5181fefb-2781-4348-af1f-8dda4060b558.png)
-
+见https://github.com/hot-zhy/trip_map/blob/master/README.md
