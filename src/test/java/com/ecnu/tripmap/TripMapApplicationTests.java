@@ -104,7 +104,7 @@ class TripMapApplicationTests {
         System.setProperty("jasypt.encryptor.password", "tripmap");
         StringEncryptor stringEncryptor = new DefaultLazyEncryptor(new StandardEnvironment());
         System.out.println("加密mysql.username： " + stringEncryptor.encrypt("root"));
-        System.out.println("加密mysql.password： " + stringEncryptor.encrypt("123456"));
+        System.out.println("加密mysql.password： " + stringEncryptor.encrypt("ZHAOjiaJUN2022!"));
         System.out.println("加密mysq.url： " + stringEncryptor.encrypt("jdbc:mysql://127.0.0.1:3306/trip_map?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false"));
         System.out.println("加密neo4j.username： " + stringEncryptor.encrypt("neo4j"));
         System.out.println("加密neo4j.password： " + stringEncryptor.encrypt("123456"));
