@@ -45,6 +45,11 @@ nohup java -jar TripMap-0.0.1-SNAPSHOT.jar &
 
 运行成功后可以访问`localhost:8080/api`查看系统支持的api
 
+ 
+## 项目运行视频
+链接：https://pan.baidu.com/s/1B2Sg_Sh-lOhGz9PsPdPgjA?pwd=wew0 
+提取码：wew0
+
 ## 功能划分
 ![image](https://user-images.githubusercontent.com/100272100/209806005-c531a182-31f9-4537-a41b-a8354b5b43c3.png)
 
