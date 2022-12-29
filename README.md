@@ -56,6 +56,8 @@ nohup java -jar TripMap-0.0.1-SNAPSHOT.jar &
 
 ## apk安装包
 https://github.com/hot-zhy/trip_map_apk
+![image](https://user-images.githubusercontent.com/100272100/209929204-2c620bf7-f3e3-4400-814f-65b25c2fa56a.png)
+
 
 
 ## 前端仓库
